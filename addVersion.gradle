@@ -1,0 +1,28 @@
+afterEvaluate {
+        preBuild.dependsOn(updateVersion)
+}
+
+task updateVersion() {
+    doFirst {
+        updateVersionToXML(android.defaultConfig.versionCode, android.defaultConfig.versionName)
+    }
+}
+
+def updateVersionToXML(verCode, verName) {
+    println("Write VersionName and VersionCode!")
+
+    def stringsFile = file("src/main/res/values/version.xml")
+    def stringsText = stringsFile.getText()
+
+    def pattern = Pattern.compile(String.format("version_code\">.*<"));
+    def match = pattern.matcher(stringsText);
+    match.find();
+    stringsText = match.replaceAll(String.format("version_code\">%s<", verCode))
+
+    pattern = Pattern.compile(String.format("version_name\">.*<"));
+    match = pattern.matcher(stringsText);
+    match.find();
+    stringsText = match.replaceAll(String.format("version_name\">%s<", verName))
+
+    stringsFile.write(stringsText)
+}
