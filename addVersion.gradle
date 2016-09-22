@@ -6,11 +6,11 @@ afterEvaluate {
 
 task updateVersion() {
     doFirst {
-        updateVersionToXML(android.defaultConfig.versionCode, android.defaultConfig.versionName)
+        updateVersionToXML(version_channel, version_name, version_code, version_min)
     }
 }
 
-def updateVersionToXML(verCode, verName) {
+def updateVersionToXML(verChannel, verName, verCode, verMin) {
     println("Write Version Infomation")
 
     def stringsFile = file("src/main/res/values/version.xml")
@@ -25,6 +25,16 @@ def updateVersionToXML(verCode, verName) {
     match = pattern.matcher(stringsText);
     match.find();
     stringsText = match.replaceAll(String.format("version_name\">%s<", verName))
+
+    pattern = Pattern.compile(String.format("version_channel\">.*<"));
+    match = pattern.matcher(stringsText);
+    match.find();
+    stringsText = match.replaceAll(String.format("version_channel\">%s<", verChannel))
+
+    pattern = Pattern.compile(String.format("version_min\">.*<"));
+    match = pattern.matcher(stringsText);
+    match.find();
+    stringsText = match.replaceAll(String.format("version_min\">%s<", verMin))
 
     stringsFile.write(stringsText)
 }
