@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 afterEvaluate {
         preBuild.dependsOn(updateVersion)
 }
@@ -9,7 +11,7 @@ task updateVersion() {
 }
 
 def updateVersionToXML(verCode, verName) {
-    println("Write VersionName and VersionCode!")
+    println("Write Version Infomation")
 
     def stringsFile = file("src/main/res/values/version.xml")
     def stringsText = stringsFile.getText()
