@@ -24,7 +24,7 @@ def updateVersionToXML(file_path, verChannel, verName, verCode, verMin) {
     pattern = Pattern.compile(String.format("version_name = \".*\""));
     match = pattern.matcher(stringsText);
     match.find();
-    stringsText = match.replaceAll(String.format("version_name = \"%s\";", verName))
+    stringsText = match.replaceAll(String.format("version_name = \"%s\"", verName))
 
     pattern = Pattern.compile(String.format("version_channel = \".*\""));
     match = pattern.matcher(stringsText);
