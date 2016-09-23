@@ -1,40 +1,40 @@
 import java.util.regex.Pattern
 
 afterEvaluate {
-        preBuild.dependsOn(updateVersion)
+    preBuild.dependsOn(updateVersion)
 }
 
 task updateVersion() {
     doFirst {
-        updateVersionToXML(version_channel, version_name, version_code, version_min)
+        updateVersionToXML(version_file, version_channel, version_name, version_code, version_min)
     }
 }
 
-def updateVersionToXML(verChannel, verName, verCode, verMin) {
+def updateVersionToXML(file_path, verChannel, verName, verCode, verMin) {
     println("Write Version Infomation")
 
-    def stringsFile = file("src/main/res/values/version.xml")
+    def stringsFile = file(file_path)
     def stringsText = stringsFile.getText()
 
-    def pattern = Pattern.compile(String.format("version_code\">.*<"));
+    def pattern = Pattern.compile(String.format("version_code = .*;"));
     def match = pattern.matcher(stringsText);
     match.find();
-    stringsText = match.replaceAll(String.format("version_code\">%s<", verCode))
+    stringsText = match.replaceAll(String.format("version_code = %s;", verCode))
 
-    pattern = Pattern.compile(String.format("version_name\">.*<"));
+    pattern = Pattern.compile(String.format("version_name = \".*\""));
     match = pattern.matcher(stringsText);
     match.find();
-    stringsText = match.replaceAll(String.format("version_name\">%s<", verName))
+    stringsText = match.replaceAll(String.format("version_name = \"%s\";", verName))
 
-    pattern = Pattern.compile(String.format("version_channel\">.*<"));
+    pattern = Pattern.compile(String.format("version_channel = \".*\""));
     match = pattern.matcher(stringsText);
     match.find();
-    stringsText = match.replaceAll(String.format("version_channel\">%s<", verChannel))
+    stringsText = match.replaceAll(String.format("version_channel = \"%s\"", verChannel))
 
-    pattern = Pattern.compile(String.format("version_min\">.*<"));
+    pattern = Pattern.compile(String.format("version_min = .*;"));
     match = pattern.matcher(stringsText);
     match.find();
-    stringsText = match.replaceAll(String.format("version_min\">%s<", verMin))
+    stringsText = match.replaceAll(String.format("version_min = %s;", verMin))
 
     stringsFile.write(stringsText)
 }
