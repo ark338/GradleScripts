@@ -1,0 +1,21 @@
+uploadArchives {
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            repository(url: repositoryUrl) {
+                authentication(userName: properties.getProperty("InternalRepositoryUserName"), password: properties.getProperty("InternalRepositoryPassword"))
+            }
+            pom.project {
+                version libraryVersion
+                artifactId artifact
+                groupId publishedGroupId
+                packaging "aar"
+                description libraryDescription
+            }
+        }
+    }
+}
+
+artifacts {
+    archives file(artifact + '.aar')
+}
