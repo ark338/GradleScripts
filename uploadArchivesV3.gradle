@@ -15,6 +15,14 @@ uploadArchives {
                 packaging "aar"
                 description libraryDescription
             }
+            pom.whenConfigured { pom ->
+                pom.dependencies.forEach { dep ->
+                    if (dep.getVersion() == "unspecified") {
+                        dep.setGroupId(GROUP)
+                        dep.setVersion(VERSION_NAME)
+                    }
+                }
+            }
         }
     }
 }
