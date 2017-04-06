@@ -1,4 +1,4 @@
-def getLatestVersionFor(String repositoryPath, String module) {
+def getLatestVersion(String repositoryPath, String module) {
     def String url = repositoryPath + '/' + module.replace('.', '/').replace(':', '/') + "/maven-metadata.xml";
     def HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
     con.setConnectTimeout(15000);
